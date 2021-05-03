@@ -8,7 +8,7 @@ import HomepageLayout from './layouts/HomepageLayout';
 import Homepage from './pages/Homepage';
 import Registration from './pages/Registration/index';
 import Login from './pages/Login/index';
-
+import Recovery from './pages/Recovery/index';
 import './default.scss';
 const initialState={
   currentUser:null
@@ -61,6 +61,11 @@ this.authListener();
        render={()=>currentUser?<Redirect to="/"/>:(
         <MainLayout currentUser={currentUser}>
           <Login/>
+        </MainLayout>
+      )}/>
+      <Route path="/recovery" render={()=>(
+        <MainLayout>
+          <Recovery/>
         </MainLayout>
       )}/>
       </Switch>

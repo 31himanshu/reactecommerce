@@ -1,9 +1,10 @@
 import React,{Component} from 'react';
+import {Link} from 'react-router-dom';
 import './styles.scss';
 import Button from './../forms/Button/index';
 import {signInWithGoogle,auth} from './../../firebase/utils'
 import FormInput from './../forms/FormInput';
-
+import AuthWrapper from './../../components/AuthWrapper';
 const initialState={
     email:'',
     password:''
@@ -39,11 +40,7 @@ this.setState({
     render(){
         const {email,password}=this.state;
         return (
-            <div className="signin">
-    <div className="wrap">
-        <h2>
-            login
-        </h2>
+           <AuthWrapper>
     <div className="formWrap">
         <form onSubmit={this.handleSubmit}>
             <FormInput 
@@ -70,12 +67,17 @@ this.setState({
         </div>
     
     </div>
+    <div className="links">
+        <Link to="/recovery">
+            Reset Password
+        </Link>
+
+    </div>
         </form>
     
     </div>
-    </div>
-            </div>
-        )
+    </AuthWrapper>
+        );
     }
     
 }

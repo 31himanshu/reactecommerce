@@ -3,6 +3,7 @@ import './styles.scss';
 import FormInput from './../forms/FormInput/index';
 import Button from './../forms/Button/index';
 import {auth,handleUserProfile} from './../../firebase/utils'; 
+import AuthWrapper from './../../components/AuthWrapper';
 const initialState={
     displayName:'',
     email:'',
@@ -47,12 +48,13 @@ handleFormSubmit=async event=>{
 }
     render (){
         const {displayName,email,password,confirmpassword,errors}=this.state;
+        const configAuthWrapper={
+            headLine:'Registration'
+        }
         return (
-            <div className="signup">
-                <div className="wrap">
-                    <h2>
-                        SignUp
-                    </h2>
+           <AuthWrapper {...configAuthWrapper}>
+                   
+                    <div className="formWrap">
                     {errors.length>0&&(
                         <ul>
                             {errors.map((err,index)=>{
@@ -64,7 +66,6 @@ handleFormSubmit=async event=>{
                             })}
                         </ul>
                     )}
-                    <div className="formWrap">
                     <form onSubmit={this.handleFormSubmit}>
                    
 <FormInput
@@ -109,10 +110,8 @@ onChange={this.handleChange}
 </Button>
                     </form>
                     </div>
-                </div>
-
-            </div>
-        )
+                    </AuthWrapper>
+        );
     }
 }
 export default Signup;
