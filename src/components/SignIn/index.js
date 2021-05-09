@@ -1,84 +1,98 @@
-import React,{Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import {  signInWithGoogle, signInUser } from './../../redux/User/user.actions';
+
 import './styles.scss';
-import Button from './../forms/Button/index';
-import {signInWithGoogle,auth} from './../../firebase/utils'
+
+import AuthWrapper from './../AuthWrapper';
 import FormInput from './../forms/FormInput';
-import AuthWrapper from './../../components/AuthWrapper';
-const initialState={
-    email:'',
-    password:''
-}
-class SignIn extends Component{
-  constructor(props){
-      super(props);
-      this.state={
-          ...initialState
-      };
-      this.handleChange=this.handleChange.bind(this);
-  }
-  handleChange(e){
-const {name,value}=e.target;
-this.setState({
-    [name]:value
-})
-  }
-    handleSubmit=async e=>{
-        e.preventDefault();
-        const {email,password}=this.state;
-        try{
-         await auth.signInWithEmailAndPassword(email,password);
-         this.setState({
-             ...initialState
-         });
-        }catch(err){
-            console.log(err);
-        }
+import Button from './../forms/Button';
+
+const mapState = ({ user }) => ({
+  signInSuccess:user.signInSuccess
+});
+const SignIn = props => {
+  const { signInSuccess } = useSelector(mapState);
+    const dispatch = useDispatch();
+    const history = useHistory();
+  
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('')
+  
+    useEffect(() => {
+      if (signInSuccess) {
+        resetForm();
+        history.push('/');
+      }
+  
+    }, [signInSuccess]);
+  
+    const resetForm = () => {
+      setEmail('');
+      setPassword('');
+    };
+  
+    const handleSubmit = e => {
+      e.preventDefault();
+      dispatch(signInUser({ email, password }));
     }
-
-
-    render(){
-        const {email,password}=this.state;
-        return (
-           <AuthWrapper>
-    <div className="formWrap">
-        <form onSubmit={this.handleSubmit}>
-            <FormInput 
-            type="email"
-            name="email"
-            value={email}
-            placeholder="Email"
-            handleChange={this.handleChange}/>
-
-<FormInput 
-            type="password"
-            name="password"
-            value={password}
-            placeholder="Password"
-            handleChange={this.handleChange}/>
+  
+    const handleGoogleSignIn = () => {
+      dispatch(signInWithGoogle());
+    }
+  
+    const configAuthWrapper = {
+      headline: 'LogIn'
+    };
+  
+    return (
+      <AuthWrapper {...configAuthWrapper}>
+        <div className="formWrap">
+          <form onSubmit={handleSubmit}>
+  
+            <FormInput
+              type="email"
+              name="email"
+              value={email}
+              placeholder="Email"
+              handleChange={e => setEmail(e.target.value)}
+            />
+  
+            <FormInput
+              type="password"
+              name="password"
+              value={password}
+              placeholder="Password"
+              handleChange={e => setPassword(e.target.value)}
+            />
+  
             <Button type="submit">
-                LogIn
+              LogIn
             </Button>
-    <div className="socialsignin">
-        <div className="row">
-    <Button onClick={signInWithGoogle}>
-        Sign in with Google
-    </Button>
+  
+            <div className="socialSignin">
+              <div className="row">
+                <Button onClick={handleGoogleSignIn}>
+                  Sign in with Google
+                </Button>
+              </div>
+            </div>
+  
+            <div className="links">
+              <Link to="/registration">
+                Register
+              </Link>
+              {` | `}
+              <Link to="/recovery">
+                Reset Password
+              </Link>
+            </div>
+  
+          </form>
         </div>
-    
-    </div>
-    <div className="links">
-        <Link to="/recovery">
-            Reset Password
-        </Link>
-
-    </div>
-        </form>
-    
-    </div>
-    </AuthWrapper>
-        );
-    }
-    
-}
-export default SignIn;
+      </AuthWrapper>
+    );
+  }
+  
+  export default SignIn;
