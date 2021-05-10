@@ -5,6 +5,7 @@ import {useDispatch} from 'react-redux';
 import {Switch,Route } from 'react-router-dom';
 
 import {checkUserSession} from './redux/User/user.actions';
+import AdminToolbar from './components/AdminToolbaar';
 import MainLayout from './layouts/MainLayout';
 import HomepageLayout from './layouts/HomepageLayout';
 import Homepage from './pages/Homepage';
@@ -12,7 +13,9 @@ import Registration from './pages/Registration/index';
 import Login from './pages/Login/index';
 import Dashboard from './pages/Dashboard/index';
 import Recovery from './pages/Recovery/index';
+import Admin from './pages/Admin/index';
 import WithAuth from './hoc/WithAuth';
+import WithAdminAuth from './hoc/withAdminAuth';
 import './default.scss';
 
  const  App =props=>{
@@ -31,6 +34,7 @@ import './default.scss';
      
     return (
       <div className="App">
+        <AdminToolbar/>
         <Switch>
       <Route exact path="/" render={()=>(
         <HomepageLayout>
@@ -59,6 +63,14 @@ import './default.scss';
           <Dashboard/>
         </MainLayout>
         </WithAuth>
+      )}/>
+       <Route path="/admin" render={()=>(
+         <WithAdminAuth>
+        <MainLayout>
+
+          <Admin/>
+        </MainLayout>
+        </WithAdminAuth>
       )}/>
       </Switch>
       </div>
