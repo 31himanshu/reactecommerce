@@ -18,6 +18,7 @@ import Recovery from './pages/Recovery/index';
 import Admin from './pages/Admin/index';
 import WithAuth from './hoc/WithAuth';
 import WithAdminAuth from './hoc/withAdminAuth';
+import ProductDetails from './pages/ProductDetails';
 import './default.scss';
 
  const  App =props=>{
@@ -51,6 +52,11 @@ import './default.scss';
         <Route path="/search/:filterType" render={()=>(
       <MainLayout>
         <Search/>
+      </MainLayout>
+      )}/>
+         <Route path="/product/:productID" render={()=>(
+      <MainLayout>
+        <ProductDetails/>
       </MainLayout>
       )}/>
       <Route path="/registration" render={()=>(

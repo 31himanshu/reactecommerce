@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {addProductStart,fetchProductsStart,deleteProductStart} from './../../redux/Products/products.actions'
+import {addProductStart,fetchProductsStart,deleteProductStart, setProduct} from './../../redux/Products/products.actions'
 import {useDispatch,useSelector} from 'react-redux';
 import { firestore } from './../../firebase/utils';
 import Modal from './../../components/Modal';
@@ -8,6 +8,7 @@ import FormSelect from './../../components/forms/FormSelect';
 import Button from './../../components/forms/Button';
 import './styles.scss';
 import LoadMore from './../../components/LoadMore';
+import CKEditor from 'ckeditor4-react';
 const mapState=({productsData})=>({
     products:productsData.products
 })
@@ -21,6 +22,7 @@ const Admin = props => {
   const [productThumbnail, setProductThumbnail] = useState('');
   const [productPrice, setProductPrice] = useState(0);
   const {data,queryDoc,isLastPage}=products;
+  const [productDesc,setProductDesc]=useState('');
  useEffect(()=>{
      dispatch(
          fetchProductsStart()
@@ -39,6 +41,7 @@ const Admin = props => {
       setProductName('');
       setProductThumbnail('');
       setProductPrice(0);
+      setProductDesc('');
   }
  
 
@@ -49,7 +52,8 @@ const Admin = props => {
          productCategory,
          productName,
          productThumbnail,
-         productPrice
+         productPrice,
+         productDesc
      })
  );
    resetForm();
@@ -121,7 +125,9 @@ const configLoadMore={
               value={productPrice}
               handleChange={e => setProductPrice(e.target.value)}
             />
-
+         <CKEditor
+         onChange={evt=>setProductDesc(evt.editor.getData())}/>
+<br/>
             <Button type="submit">
               Add product
             </Button>

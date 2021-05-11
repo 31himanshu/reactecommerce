@@ -1,35 +1,58 @@
 import React from 'react';
 import Button from './../../forms/Button';
+import {Link} from 'react-router-dom';
 import '../styles.scss';
-const Product =({
-    productThumbnail,productName,productPrice
-})=>{
-    if(!productThumbnail||!productName||
+import {useDispatch} from 'react-redux';
+import {addProduct} from './../../../redux/Cart/cart.actions'
+const Product =(product)=>{
+    const dispatch =useDispatch();
+    const{
+    documentID,
+    productThumbnail,
+    productName,
+    productPrice
+    }=product;
+
+    if(!documentID ||!productThumbnail||!productName||
         typeof productPrice==='undefined')return null;
  const congifAddToCartBtn={
      type:'button'
  }
+ const handleAddToCart=(product)=>{
+if(!product) return ;
+dispatch(
+addProduct(product)
+)
+ };
     return (
 <div className="product">
     <div className="thumb">
+        <Link to={`/product/${documentID}`}> 
         <img src={productThumbnail} alt={productName}/>
+        </Link>
+       
 
     </div >
     <div className="details">
         <ul>
             <li>
                 <span className="name">
-                    {productName}
+                <Link to={`/product/${documentID}`}>
+                {productName}
+                </Link>
+                   
                 </span>
             </li>
             <li>
                 <span className="price">
-                    {productPrice}Rs
+                <Link to={`/product/${documentID}`}>
+                {productPrice}Rs
+                </Link>
                 </span>
             </li>
             <li>
                 <div className="addToCart">
-                <Button {...congifAddToCartBtn}>
+                <Button {...congifAddToCartBtn} onClick={()=>handleAddToCart(product)}>
                     Add to cart
                     </Button>
                     </div>

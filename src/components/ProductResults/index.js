@@ -71,9 +71,7 @@ dispatch(
               if(!productThumbnail||!productName||
                 typeof productPrice==='undefined')return null;
                 const configProduct={
-                    productThumbnail,
-                    productName,
-                    productPrice
+                 ...product
                 }
               return (
                  

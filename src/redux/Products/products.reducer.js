@@ -1,6 +1,7 @@
 import productsTypes from './products.types';
 const INTIAL_STATE={
-    products:[]
+    products:[],
+    product:{}
 }
 const productsReducer=(state=INTIAL_STATE,action)=>{
 switch(action.type){
@@ -9,6 +10,11 @@ switch(action.type){
             ...state,
             products:action.payload
         }
+     case productsTypes.SET_PRODUCT:
+         return{
+             ...state,
+             product:action.payload
+         }
     default:
         return state;
 }
