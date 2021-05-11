@@ -13,6 +13,7 @@ import Homepage from './pages/Homepage';
 import Registration from './pages/Registration/index';
 import Login from './pages/Login/index';
 import Dashboard from './pages/Dashboard/index';
+import Search from './pages/Search/index';
 import Recovery from './pages/Recovery/index';
 import Admin from './pages/Admin/index';
 import WithAuth from './hoc/WithAuth';
@@ -41,6 +42,11 @@ import './default.scss';
         <HomepageLayout>
           <Homepage/>
         </HomepageLayout>
+      )}/>
+      <Route path="/search" render={()=>(
+      <MainLayout>
+        <Search/>
+      </MainLayout>
       )}/>
       <Route path="/registration" render={()=>(
         <MainLayout>
