@@ -15,7 +15,7 @@ const Admin = props => {
     const dispatch=useDispatch();
   //const [products, setProducts] = useState([]);
   const [hideModal, setHideModal] = useState(true);
-  const [productCategory, setProductCategory] = useState('mens');
+  const [productCategory, setProductCategory] = useState('Academic');
   const [productName, setProductName] = useState('');
   const [productThumbnail, setProductThumbnail] = useState('');
   const [productPrice, setProductPrice] = useState(0);

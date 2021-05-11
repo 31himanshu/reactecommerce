@@ -43,7 +43,12 @@ import './default.scss';
           <Homepage/>
         </HomepageLayout>
       )}/>
-      <Route path="/search" render={()=>(
+      <Route exact path="/search" render={()=>(
+      <MainLayout>
+        <Search/>
+      </MainLayout>
+      )}/>
+        <Route path="/search/:filterType" render={()=>(
       <MainLayout>
         <Search/>
       </MainLayout>
