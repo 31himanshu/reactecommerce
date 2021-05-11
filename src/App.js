@@ -19,6 +19,7 @@ import Admin from './pages/Admin/index';
 import WithAuth from './hoc/WithAuth';
 import WithAdminAuth from './hoc/withAdminAuth';
 import ProductDetails from './pages/ProductDetails';
+import Cart from './pages/Cart';
 import './default.scss';
 
  const  App =props=>{
@@ -54,7 +55,12 @@ import './default.scss';
         <Search/>
       </MainLayout>
       )}/>
-         <Route path="/product/:productID" render={()=>(
+         <Route path="/cart" render={()=>(
+      <MainLayout>
+        <Cart/>
+      </MainLayout>
+      )}/>
+        <Route path="/product/:productID" render={()=>(
       <MainLayout>
         <ProductDetails/>
       </MainLayout>
