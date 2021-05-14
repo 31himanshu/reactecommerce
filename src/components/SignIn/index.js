@@ -50,7 +50,7 @@ const SignIn = props => {
       <AuthWrapper {...configAuthWrapper}>
         <div className="formWrap">
           <form onSubmit={handleSubmit}>
-              <h4>LOGIN</h4>
+              
             <FormInput
               type="email"
               name="email"

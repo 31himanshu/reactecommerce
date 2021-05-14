@@ -55,12 +55,13 @@ const Header=props=>{
       <Link to="/dashboard">
     My Account
       </Link>
-  </li>,
+  </li>, 
                        <li>
                            <span onClick={()=>signOut()}>
                                LOGOUT
                            </span>
-                       </li>
+                       </li>, 
+                      
                   
                ]}
                
@@ -74,11 +75,12 @@ const Header=props=>{
       Register
       </Link>
   </li>,
-  <li>
+  <li>, 
       <Link to="/login">
       LOGIN
       </Link>
   </li>
+  
 
                ]}</ul>
              

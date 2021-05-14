@@ -5,11 +5,12 @@ import Button from './../forms/Button';
 import { CountryDropdown } from 'react-country-region-selector';
 import { apiInstance } from './../../Utilis';
 import { selectCartTotal, selectCartItemsCount, selectCartItems } from './../../redux/Cart/cart.selectors';
-//import { saveOrderHistory } from './../../redux/Orders/orders.actions';
+import { saveOrderHistory } from './../../redux/Orders/orders.actions';
 import { clearCart } from './../../redux/Cart/cart.actions';
 import { createStructuredSelector } from 'reselect';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+//import ConfirmExampleConfirm from './../../components/Confirm';
 import './styles.scss';
 
 const initialAddressState = {
@@ -77,42 +78,59 @@ const PaymentDetails = () => {
     }
 
     apiInstance.post('/payments/create', {
-        amount: total * 100,
-        shipping: {
-          name: recipientName,
+      amount: total * 100,
+      shipping: {
+        name: recipientName,
+        address: {
+          ...shippingAddress
+        }
+      }
+    }).then(({ data: clientSecret }) => {
+
+      stripe.createPaymentMethod({
+        type: 'card',
+        card: cardElement,
+        billing_details: {
+          name: nameOnCard,
           address: {
-            ...shippingAddress
+            ...billingAddress
           }
         }
-      }).then(({ data: clientSecret }) => {
-  
-        stripe.createPaymentMethod({
-          type: 'card',
-          card: cardElement,
-          billing_details: {
-            name: nameOnCard,
-            address: {
-              ...billingAddress
-            }
-          }
-        }).then(({ paymentMethod }) => {
-  
-          stripe.confirmCardPayment(clientSecret, {
-            payment_method: paymentMethod.id
-          })
-          .then(({ paymentIntent }) => {
-            dispatch(clearCart())
-           //console.log(paymentIntent);
-          })//.catch()
+      }).then(({ paymentMethod }) => {
 
-          ;
-  
+        stripe.confirmCardPayment(clientSecret, {
+          payment_method: paymentMethod.id
         })
-  
-  
-      });
-  
-    };
+        .then(({ paymentIntent }) => {
+          const configOrder = {
+            orderTotal: total,
+            orderItems: cartItems.map(item => {
+              const { documentID, productThumbnail, productName,
+                productPrice, quantity } = item;
+
+              return {
+                documentID,
+                productThumbnail,
+                productName,
+                productPrice,
+                quantity
+              };
+            })
+          }
+         
+          dispatch(
+            //clearCart()
+            saveOrderHistory(configOrder)
+          );
+        
+        });
+
+      })
+
+
+    });
+
+  };
 
   const configCardElement = {
     iconStyle: 'solid',

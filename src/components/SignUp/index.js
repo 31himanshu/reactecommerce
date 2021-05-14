@@ -60,6 +60,7 @@ const Signup = props => {
     headline: 'Registration'
   };
 
+
   return (
     <AuthWrapper {...configAuthWrapper}>
       <div className="formWrap">
